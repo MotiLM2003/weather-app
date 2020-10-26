@@ -5,16 +5,16 @@ const forecast = (city, callback) => {
     city
   )}&unites=m`;
 
-  request({ url: url, json: true }, (error, response) => {
+  request({ url, json: true }, (error, { body }) => {
     if (error) {
       callback('error', undefined);
-    } else if (response.body.error) {
-      callback(response.body.error);
+    } else if (body.error) {
+      callback(body.error);
     } else {
-      const data = response.body.current;
+      const { temperature, feelslike, weather_descriptions } = body.current;
       callback(undefined, {
-        message: `it is currently ${data.temperature} degress out. It feels like ${data.feelslike} degress out.`,
-        description: `weather_descriptions: ${data.weather_descriptions[0]}`,
+        message: `it is currently ${temperature} degress out. It feels like ${feelslike} degress out.`,
+        description: `weather_descriptions: ${weather_descriptions[0]}`,
       });
     }
   });

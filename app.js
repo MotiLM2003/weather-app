@@ -9,15 +9,14 @@ if (!city)
     chalk.red.inverse('You must provide location as an argument')
   );
 
-geo.geocode(city, (error, data) => {
+geo.geocode(city, (error, { latitude, longitude } = {}) => {
   if (error) {
     console.log(error);
   } else {
-    console.log(data);
     console.log(chalk.green.inverse(`calling forecast for: ${city}`));
-    weather.forecast(city, (error, data) => {
+    weather.forecast(city, (error, { message, description }) => {
       if (error) console.log(error);
-      console.log(data);
+      console.log(message, description);
     });
   }
 });
