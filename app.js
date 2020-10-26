@@ -2,32 +2,22 @@ const chalk = require('chalk');
 const geo = require('./utils/geocode');
 const weather = require('./utils/forecast');
 
-// request({ url: url, json: true }, (error, response) => {
-//   if (error) {
-//     console.log(error);
-//   } else if (response.body.error) {
-//     console.log(chalk.red.bold.inverse(response.body.error.info));
-//   } else {
-//     const data = response.body.current;
-//     console.log(
-//       chalk.yellow.inverse.bold(
-//         `it is currently ${data.temperature} degress out. It feels like ${data.feelslike} degress out.`
-//       )
-//     );
-//     console.log(`weather_descriptions: ${data.weather_descriptions[0]}`);
-//   }
-// });
+const city = process.argv[2];
 
-weather.forecast('tel aviv', (error, data) => {
-  console.log(error);
-  console.log(data);
+if (!city)
+  return console.log(
+    chalk.red.inverse('You must provide location as an argument')
+  );
+
+geo.geocode(city, (error, data) => {
+  if (error) {
+    console.log(error);
+  } else {
+    console.log(data);
+    console.log(chalk.green.inverse(`calling forecast for: ${city}`));
+    weather.forecast(city, (error, data) => {
+      if (error) console.log(error);
+      console.log(data);
+    });
+  }
 });
-
-// geo.geocode('chicago', (error, data) => {
-//   if (error) {
-//     console.log(error);
-//   } else {clear
-
-//     console.log(data);
-//   }
-// });

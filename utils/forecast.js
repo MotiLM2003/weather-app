@@ -13,8 +13,7 @@ const forecast = (city, callback) => {
     } else {
       const data = response.body.current;
       callback(undefined, {
-        message:
-          'it is currently ${data.temperature} degress out. It feels like ${data.feelslike} degress out.',
+        message: `it is currently ${data.temperature} degress out. It feels like ${data.feelslike} degress out.`,
         description: `weather_descriptions: ${data.weather_descriptions[0]}`,
       });
     }
